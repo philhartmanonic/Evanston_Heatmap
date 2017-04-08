@@ -2,7 +2,7 @@ require 'csv'
 require 'rmagick'
 include Magick
 
-results = CSV.read('referendum.csv')
+results = CSV.read('results/referendum.csv')
 totals = []
 values = {}
 percentages = []
@@ -39,7 +39,7 @@ end
 
 layers = ImageList.new
 
-Dir.entries('.').delete_if{ |x| ['.', '..', 'background.png'].include?(x) or x[-3..-1] != 'png' or x[1] != '-' }.each do |lay|
+Dir.entries('precinct_pngs').delete_if{ |x| ['.', '..', 'background.png'].include?(x) or x[-3..-1] != 'png' or x[1] != '-' }.each do |lay|
 	layers << ImageList.new(lay).first
 	layers[-1].colorspace=RGBColorspace
 	layers[-1].background_color = 'none'
@@ -51,4 +51,4 @@ Dir.entries('.').delete_if{ |x| ['.', '..', 'background.png'].include?(x) or x[-
 end
 
 map = layers.flatten_images
-map.write('test_referendum_overlay.png')
+map.write('overlays/test_referendum_overlay.png')
